@@ -22,7 +22,39 @@ $ npm install wrap-as-async --save
 ## Usage
 
 ```js
-var wrap_as_async = require('wrap-as-async');
+var wrap = require('wrap-as-async');
+
+var wrapped = wrap(function (n){
+  return n + 1;
+});
+
+wrapped(1, function(err, result){
+  console.log(err); // null
+  console.log(result); // 2
+});
+```
+
+### Wrap a Function Using `this.async()`
+
+```js
+var wrapped = wrap(function(n){
+  var done = this.async();
+  setTimeout(function(){
+    if (n < 0) {
+      return new Error('n should not less than 0')
+    }
+    done(null, n + 1);
+  }, 10)
+});
+
+wrapped(1, function(err, result){
+  console.log(err); // null
+  console.log(result); // 2
+});
+
+wrapped(-1, function(err){
+  console.log(err); // Error
+});
 ```
 
 ## License
