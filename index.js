@@ -2,15 +2,13 @@
 
 module.exports = wrap;
 
-var clone = require('clone').clonePrototype;
-
 function wrap (fn) {
   function async () {
     var self = Object(this) === this
       ? clone(this)
       : {};
 
-    var args = make_array(arguments);
+    var args = Array.prototype.slice.call(arguments);
     var callback = args.pop();
 
     function done (err) {
@@ -43,7 +41,9 @@ function wrap (fn) {
   return async;
 }
 
-
-function make_array (args) {
-  return Array.prototype.slice.call(args);
+function clone (obj) {
+  function F () {
+  }
+  F.prototype = obj;
+  return new F;
 }

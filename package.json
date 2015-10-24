@@ -1,6 +1,6 @@
 {
   "name": "wrap-as-async",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "wrap-as-async",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,5 @@
     "chai": "*"
   },
   "dependencies": {
-    "clone": "^1.0.2"
   }
 }
