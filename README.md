@@ -23,7 +23,11 @@ $ npm install wrap-as-async --save
 
 ```js
 var wrap = require('wrap-as-async');
+```
 
+### Wrap a sync method into async
+
+```
 var wrapped = wrap(function (n){
   return n + 1;
 });
@@ -34,7 +38,7 @@ wrapped(1, function(err, result){
 });
 ```
 
-### Wrap a Function Using `this.async()`
+### Wrap a function using `this.async()`
 
 ```js
 var wrapped = wrap(function(n){
@@ -56,6 +60,47 @@ wrapped(-1, function(err){
   console.log(err); // Error
 });
 ```
+
+### Asign `this` object by using `call`
+
+```js
+wrap(function(n){
+  return n + this.base
+
+}).call({
+  base: 2
+}, 1, function(err, result){
+  // result -> 3
+});
+
+
+wrap(function(n){
+  // You could still use `this.async()` even with `call`
+  var done = this.async();
+  var base = this.base;
+  setTimeout(function(){
+    done(null, n + base)
+  }, 10)
+
+}).call({
+  base: 2
+}, 1, function(err, result){
+  // result -> 3
+});
+```
+
+So that you can assign a `wrap()`ped method onto an object, which will be really helpful.
+
+### Multiple arguments and `done` result
+
+wrap(function(n, m){
+  var done = this.async();
+  done(null, n + 1, m + 1);
+
+})(1, 2, function(err, result1, result2){
+  // result1 -> 2
+  // result2 -> 3
+});
 
 ## License
 
