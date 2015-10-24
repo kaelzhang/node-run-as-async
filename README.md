@@ -11,7 +11,7 @@
 
 # wrap-as-async
 
-Utility method to wrap function either synchronously or asynchronously into an async method using the common this.async() style.
+Utility method to wrap function into an asynchronous method using the common `this.async()` style.
 
 ## Install
 
@@ -27,7 +27,7 @@ var wrap = require('wrap-as-async');
 
 ### Wrap a sync method into async
 
-```
+```js
 var wrapped = wrap(function (n){
   return n + 1;
 });
@@ -45,7 +45,7 @@ var wrapped = wrap(function(n){
   var done = this.async();
   setTimeout(function(){
     if (n < 0) {
-      return new Error('n should not less than 0')
+      return done(new Error('n should not less than 0'));
     }
     done(null, n + 1);
   }, 10)
@@ -89,10 +89,11 @@ wrap(function(n){
 });
 ```
 
-So that you can assign a `wrap()`ped method onto an object, which will be really helpful.
+So that you can assign a `wrap()`ped method onto an object or a prototype object, which will be really helpful.
 
 ### Multiple arguments and `done` result
 
+```js
 wrap(function(n, m){
   var done = this.async();
   done(null, n + 1, m + 1);
@@ -101,6 +102,7 @@ wrap(function(n, m){
   // result1 -> 2
   // result2 -> 3
 });
+```
 
 ## License
 
