@@ -25,7 +25,7 @@ $ npm install wrap-as-async --save
 var wrap = require('wrap-as-async');
 ```
 
-### Wrap a sync method into async
+#### Wrap a sync method into async
 
 ```js
 var wrapped = wrap(function (n){
@@ -38,7 +38,7 @@ wrapped(1, function(err, result){
 });
 ```
 
-### Wrap a function using `this.async()`
+#### Wrap a function using `this.async()`
 
 ```js
 var wrapped = wrap(function(n){
@@ -61,7 +61,7 @@ wrapped(-1, function(err){
 });
 ```
 
-### Asign `this` object by using `call`
+#### Asign `this` object by using `call`
 
 ```js
 wrap(function(n){
@@ -91,7 +91,7 @@ wrap(function(n){
 
 So that you can assign a `wrap()`ped method onto an object or a prototype object, which will be really helpful.
 
-### Multiple arguments and `done` result
+#### Multiple arguments and `done` result
 
 ```js
 wrap(function(n, m){
@@ -103,6 +103,27 @@ wrap(function(n, m){
   // result2 -> 3
 });
 ```
+
+## Synchronous and asynchronous Methods
+
+```js
+function sync_method (arg...){
+  return something 
+}
+```
+
+If the method to be wrapped returns an instance of `Error`, it will be treated as a failure instead, or the `returnValue` will be the result.  
+
+```js
+function async_method (arg...) {
+  var done = this.async();
+  someAsyncProcess(function(...){
+    ...
+    done(err, result);
+  });
+}
+```
+You could use `this.async()` to turn the method into an asynchonous method, and `this.async` will return the callback function.
 
 ## License
 
