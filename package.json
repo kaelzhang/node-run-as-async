@@ -1,7 +1,7 @@
 {
   "name": "wrap-as-async",
-  "version": "1.0.3",
-  "description": "wrap-as-async",
+  "version": "1.0.4",
+  "description": "Utility method to wrap function into an asynchronous method using the common this.async() style.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec ./test/*.js"
@@ -11,7 +11,11 @@
     "url": "git://github.com/kaelzhang/node-wrap-as-async.git"
   },
   "keywords": [
-    "wrap-as-async"
+    "wrap-as-async",
+    "wrap",
+    "async",
+    "this.async()",
+    "run"
   ],
   "engines": {
     "node": ">=0.10.0"
