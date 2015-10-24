@@ -11,7 +11,7 @@
 
 # wrap-as-async
 
-<!-- description -->
+Utility method to wrap function either synchronously or asynchronously into an async method using the common this.async() style.
 
 ## Install
 
