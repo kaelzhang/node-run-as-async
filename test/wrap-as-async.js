@@ -6,6 +6,7 @@ var wrap = require('../');
 var cases = [
 {
   d: 'sync with no error',
+  is_async: false,
   f: function (n) {
     return n + 1 
   },
@@ -13,6 +14,7 @@ var cases = [
 },
 {
   d: 'sync with error',
+  is_async: false,
   f: function (n) {
     return new Error('123')
   },
@@ -20,6 +22,7 @@ var cases = [
 },
 {
   d: 'async with no error',
+  is_async: true,
   f: function (n) {
     var done = this.async();
     setTimeout(function () {
@@ -30,6 +33,7 @@ var cases = [
 },
 {
   d: 'async with error',
+  is_async: true,
   f: function (n) {
     var done = this.async();
     setTimeout(function () {
@@ -40,6 +44,7 @@ var cases = [
 },
 {
   d: 'sync call with context',
+  is_async: false,
   f: function (n) {
     return n + this.n
   },
@@ -50,6 +55,7 @@ var cases = [
 },
 {
   d: 'async all with context',
+  is_async: true,
   f: function (n) {
     var done = this.async();
     done(null, n + this.n)
@@ -61,6 +67,7 @@ var cases = [
 },
 {
   d: 'sync multiple argument',
+  is_async: false,
   f: function (n, m) {
     return n + m
   },
@@ -68,6 +75,7 @@ var cases = [
 },
 {
   d: 'async multiple argument and result',
+  is_async: true,
   f: function (n, m) {
     var done = this.async();
     done(null, n, m);
@@ -76,6 +84,15 @@ var cases = [
     expect(err).to.equal(null);
     expect(n).to.equal(1);
     expect(m).to.equal(1);
+  }
+},
+{
+  d: 'you are late',
+  is_async: false,
+  f: function (n) {
+    setTimeout(function(){
+      this.async()();
+    }.bind(this), 10) 
   }
 }
 ];
@@ -105,21 +122,23 @@ describe("wrap()", function(){
         expect(result).to.equal(c.e);
       }
 
+      var is_async;
       if (c.f.length === 2) {
         if (c.c) {
-          wrapped.call(c.c, 1, 1, callback);
+          is_async = wrapped.call(c.c, 1, 1, callback);
         } else {
-          wrapped(1, 1, callback);
+          is_async = wrapped(1, 1, callback);
         }
         return;
       }
 
       if (c.c) {
-        wrapped.call(c.c, 1, callback);
+        is_async = wrapped.call(c.c, 1, callback);
       } else {
-        wrapped(1, callback);
+        is_async = wrapped(1, callback);
       }
       
+      expect(is_async).to.equal(c.is_async);
     });
   });
 });

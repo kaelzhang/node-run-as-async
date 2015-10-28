@@ -19,10 +19,20 @@ Utility method to wrap function into an asynchronous method using the common `th
 $ npm install wrap-as-async --save
 ```
 
-## Usage
+## Synopsis
 
 ```js
 var wrap = require('wrap-as-async');
+
+// Wrap a synchronous function into an asynchronous one.
+// Or wrap a function that using the `this.async()` style into a normal asynchronous function.
+var wrapped = wrap(fn);
+
+// The return value of the wrapped function indicates whether the original function is asynchronous,
+// which might be useful.
+var is_async = wrapped(args, function(err, result){
+  // The callback of either sync or async function, will has `err` as the first argument. 
+});
 ```
 
 #### Wrap a sync method into async
@@ -32,10 +42,12 @@ var wrapped = wrap(function (n){
   return n + 1;
 });
 
-wrapped(1, function(err, result){
+var is_async = wrapped(1, function(err, result){
   console.log(err); // null
   console.log(result); // 2
 });
+
+is_async; // false
 ```
 
 #### Wrap a function using `this.async()`
@@ -51,10 +63,12 @@ var wrapped = wrap(function(n){
   }, 10)
 });
 
-wrapped(1, function(err, result){
+var is_async = wrapped(1, function(err, result){
   console.log(err); // null
   console.log(result); // 2
 });
+
+is_async; // true
 
 wrapped(-1, function(err){
   console.log(err); // Error

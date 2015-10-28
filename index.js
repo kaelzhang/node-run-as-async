@@ -3,6 +3,8 @@
 module.exports = wrap;
 
 function wrap (fn) {
+  var is_async = false;
+
   function async () {
     var self = Object(this) === this
       ? clone(this)
@@ -28,14 +30,16 @@ function wrap (fn) {
     var result = fn.apply(self, args);
 
     if (is_async) {
-      return;
+      return true;
     }
 
     if (result instanceof Error) {
-      return done(result);
+      done(result);
+    } else {
+      done(null, result);
     }
 
-    done(null, result);
+    return false;
   }
 
   return async;
