@@ -32,7 +32,7 @@ var wrapped = wrap(fn);
 
 // The return value of function `wrapped` indicates
 //   whether the original function is asynchronous,
-// which might be useful.
+//   which might be useful.
 var is_async = wrapped(args, function(err, result){
   // The callback of either sync or async function
   //   will always has the `err` as the first argument. 
