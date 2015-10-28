@@ -14,11 +14,22 @@ function wrap (fn) {
     var callback = args.pop();
 
     function done (err) {
-      if (err) {
-        return callback(err);
+      var args = arguments;
+
+      function real_done () {
+        if (err) {
+          return callback(err);
+        }
+
+        callback.apply(null, args);
+      }
+      
+      if (is_async) {
+        setImmediate(real_done);
+        return;
       }
 
-      callback.apply(null, arguments);
+      real_done();
     }
 
     var is_async;

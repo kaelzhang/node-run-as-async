@@ -94,6 +94,13 @@ var cases = [
       this.async()();
     }.bind(this), 10) 
   }
+},
+{
+  d: '#1: if this.async() called, it should always returns true',
+  is_async: true,
+  f: function () {
+    this.async()();
+  }
 }
 ];
 
