@@ -11,7 +11,7 @@
 
 # wrap-as-async
 
-Utility method to wrap function into an asynchronous method using the common `this.async()` style.
+Utility method to wrap a function into an asynchronous method using the common `this.async()` style.
 
 ## Install
 
@@ -54,6 +54,31 @@ var is_async = wrapped(1, function(err, result){
 is_async; // false
 ```
 
+#### Wrap an async function using `this.async()`
+
+```js
+var wrapped = wrap(function(n){
+  var done = this.async();
+  setTimeout(function(){
+    if (n < 0) {
+      return done(new Error('n should not less than 0'));
+    }
+    done(null, n + 1);
+  }, 10)
+});
+
+var is_async = wrapped(1, function(err, result){
+  console.log(err); // null
+  console.log(result); // 2
+});
+
+is_async; // true
+
+wrapped(-1, function(err){
+  console.log(err); // Error
+});
+```
+
 #### Handles `this` object
 
 `wrap-as-async` handles `this` object, so the `wrap()`ped function could be assigned onto function prototypes, instances or singletons, which will be really helpful.
@@ -91,31 +116,6 @@ wrap(function(n){
   base: 2
 }, 1, function(err, result){
   // result -> 3
-});
-```
-
-#### Wrap a function using `this.async()`
-
-```js
-var wrapped = wrap(function(n){
-  var done = this.async();
-  setTimeout(function(){
-    if (n < 0) {
-      return done(new Error('n should not less than 0'));
-    }
-    done(null, n + 1);
-  }, 10)
-});
-
-var is_async = wrapped(1, function(err, result){
-  console.log(err); // null
-  console.log(result); // 2
-});
-
-is_async; // true
-
-wrapped(-1, function(err){
-  console.log(err); // Error
 });
 ```
 
