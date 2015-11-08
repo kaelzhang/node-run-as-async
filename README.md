@@ -54,6 +54,18 @@ var is_async = wrapped(1, function(err, result){
 is_async; // false
 ```
 
+#### Wrap class methods
+
+`wrap-as-async` handles `this` object, so the wrapped function could be assigned to function prototypes, instances or singletons.
+
+```js
+function myClass (decorate) {
+  this.decorate = wrap(decorate);
+}
+
+myClass.prototype.method = wrap(method);
+```
+
 #### Wrap a function using `this.async()`
 
 ```js
