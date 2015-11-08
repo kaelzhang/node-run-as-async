@@ -54,9 +54,9 @@ var is_async = wrapped(1, function(err, result){
 is_async; // false
 ```
 
-#### Wrap class methods
+#### Handles `this` object
 
-`wrap-as-async` handles `this` object, so the wrapped function could be assigned to function prototypes, instances or singletons.
+`wrap-as-async` handles `this` object, so the `wrap()`ped function could be assigned onto function prototypes, instances or singletons, which will be really helpful.
 
 ```js
 function myClass (decorate) {
@@ -66,32 +66,7 @@ function myClass (decorate) {
 myClass.prototype.method = wrap(method);
 ```
 
-#### Wrap a function using `this.async()`
-
-```js
-var wrapped = wrap(function(n){
-  var done = this.async();
-  setTimeout(function(){
-    if (n < 0) {
-      return done(new Error('n should not less than 0'));
-    }
-    done(null, n + 1);
-  }, 10)
-});
-
-var is_async = wrapped(1, function(err, result){
-  console.log(err); // null
-  console.log(result); // 2
-});
-
-is_async; // true
-
-wrapped(-1, function(err){
-  console.log(err); // Error
-});
-```
-
-#### Asign `this` object by using `call`
+And also could assign `this` object by using `call`:
 
 ```js
 wrap(function(n){
@@ -119,7 +94,30 @@ wrap(function(n){
 });
 ```
 
-So that you can assign a `wrap()`ped method onto an object or a prototype object, which will be really helpful.
+#### Wrap a function using `this.async()`
+
+```js
+var wrapped = wrap(function(n){
+  var done = this.async();
+  setTimeout(function(){
+    if (n < 0) {
+      return done(new Error('n should not less than 0'));
+    }
+    done(null, n + 1);
+  }, 10)
+});
+
+var is_async = wrapped(1, function(err, result){
+  console.log(err); // null
+  console.log(result); // 2
+});
+
+is_async; // true
+
+wrapped(-1, function(err){
+  console.log(err); // Error
+});
+```
 
 #### Multiple arguments and `done` result
 

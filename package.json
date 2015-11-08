@@ -1,6 +1,6 @@
 {
   "name": "wrap-as-async",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Utility method to wrap function into an asynchronous method using the common this.async() style.",
   "main": "index.js",
   "scripts": {
