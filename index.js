@@ -2,6 +2,14 @@
 
 module.exports = wrap;
 
+
+var _setImmediate = typeof setImmediate === 'function'
+  ? setImmediate
+  : function (fn) {
+    setTimeout(fn, 0);
+  };
+
+
 function wrap (fn) {
   var is_async = false;
 
@@ -13,7 +21,14 @@ function wrap (fn) {
     var args = Array.prototype.slice.call(arguments);
     var callback = args.pop();
 
+    var already_done;
     function done (err) {
+      if (already_done) {
+        return;
+      }
+
+      already_done = true;
+
       var args = arguments;
 
       function real_done () {
@@ -25,7 +40,10 @@ function wrap (fn) {
       }
       
       if (is_async) {
-        setImmediate(real_done);
+        // if is async method, always set timer
+        // so that we could get the return value of `is_async`,
+        // 
+        _setImmediate(real_done);
         return;
       }
 
@@ -55,6 +73,7 @@ function wrap (fn) {
 
   return async;
 }
+
 
 function clone (obj) {
   function F () {

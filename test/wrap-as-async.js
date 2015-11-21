@@ -101,6 +101,36 @@ var cases = [
   f: function () {
     this.async()();
   }
+},
+{
+  d: '#2: done should only calls once, immediate call',
+  is_async: true,
+  f: function (n) {
+    var done = this.async();
+    done(null, 1);
+    done(null, 2);
+    done(true, 3)
+  },
+  e: function (err, n) {
+    expect(err).to.equal(null);
+    expect(n).to.equal(1);
+  }
+},
+{
+  d: '#2: done should only calls once',
+  is_async: true,
+  f: function (n) {
+    var done = this.async();
+    setTimeout(function () {
+      done(null, 1);
+      done(null, 2);
+      done(true, 3);
+    }, 10);
+  },
+  e: function (err, n) {
+    expect(err).to.equal(null);
+    expect(n).to.equal(1);
+  }
 }
 ];
 
