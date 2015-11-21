@@ -11,7 +11,7 @@
 
 # wrap-as-async
 
-Utility method to wrap a function into an asynchronous method using the common `this.async()` style.
+Utility method to wrap a function into an asynchronous method using the common `this.async()` style, with browser compatibility.
 
 ## Install
 
