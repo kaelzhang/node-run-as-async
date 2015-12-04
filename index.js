@@ -32,10 +32,6 @@ function wrap (fn) {
       var args = arguments;
 
       function real_done () {
-        if (err) {
-          return callback(err);
-        }
-
         callback.apply(null, args);
       }
       

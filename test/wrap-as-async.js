@@ -178,4 +178,19 @@ describe("wrap()", function(){
       expect(is_async).to.equal(c.is_async);
     });
   });
+
+  it("#3, should not ignore other parameters", function(done){
+    var wrapped = wrap(function () {
+      var done = this.async();
+      setTimeout(function () {
+        done(1, 2);
+      }, 10);
+    });
+
+    wrapped(function (a, b) {
+      expect(a).to.equal(1);
+      expect(b).to.equal(2);
+      done()
+    });
+  });
 });

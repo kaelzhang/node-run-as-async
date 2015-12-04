@@ -81,7 +81,7 @@ wrapped(-1, function(err){
 
 #### Handles `this` object
 
-`wrap-as-async` handles `this` object, so the `wrap()`ped function could be assigned onto function prototypes, instances or singletons, which will be really helpful.
+`wrap-as-async` handles `this` object, so the `wrap()`ped function could be assigned onto function prototypes, instances or singletons, acting like  a decorator(such as python decorators), which will be really helpful.
 
 ```js
 function myClass (decorate) {
