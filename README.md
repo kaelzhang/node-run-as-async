@@ -11,7 +11,9 @@
 
 # wrap-as-async
 
-Utility method to wrap a function into an asynchronous method using the common `this.async()` style, with browser compatibility.
+Utility method to
+- wrap a function which returns a `Promise` into a normal asynchronous function.
+- wrap a function into an asynchronous method using the common `this.async()` style, with browser compatibility.
 
 ## Install
 
@@ -25,7 +27,7 @@ $ npm install wrap-as-async --save
 var wrap = require('wrap-as-async');
 
 // Wrap a synchronous function into an asynchronous one.
-// Or wrap a function that using the `this.async()` style 
+// Or wrap a function that using the `this.async()` style
 //   into a normal asynchronous function.
 // `wrapped` is an asynchronous function.
 var wrapped = wrap(fn);
@@ -35,7 +37,7 @@ var wrapped = wrap(fn);
 //   which might be useful.
 var is_async = wrapped(args, function(err, result){
   // The callback of either sync or async function
-  //   will always has the `err` as the first argument. 
+  //   will always has the `err` as the first argument.
 });
 ```
 
@@ -136,11 +138,11 @@ wrap(function(n, m){
 
 ```js
 function sync_method (arg...){
-  return something 
+  return something
 }
 ```
 
-If the method to be wrapped returns an instance of `Error`, it will be treated as a failure instead, or the `returnValue` will be the result.  
+If the method to be wrapped returns an instance of `Error`, it will be treated as a failure instead, or the `returnValue` will be the result.
 
 ```js
 function async_method (arg...) {
@@ -152,6 +154,17 @@ function async_method (arg...) {
 }
 ```
 You could use `this.async()` to turn the method into an asynchonous method, and `this.async` will return the callback function.
+
+
+## `Promise` support
+
+```js
+wrap(function(n){
+  return Promise.resolve(n + 1)
+})(1, (err, result) => {
+  // result -> 2
+})
+```
 
 ## License
 

@@ -61,18 +61,16 @@ function wrap (fn) {
     // - or a polyfilled `Promise`
     // - or a `Promise`-like object
     // So, just detect if it has a method `then`
-    if (typeof result.then === 'function') {
-      _setImmediate(function (){
-        result.then(
-          function (value){
-            done(null, value)
-          },
+    if (result && typeof result.then === 'function') {
+      result.then(
+        function (value) {
+          done(null, value)
+        },
 
-          function (err) {
-            done(err)
-          }
-        )
-      })
+        function (err) {
+          done(err)
+        }
+      )
 
       return true
     }

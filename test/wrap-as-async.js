@@ -135,13 +135,41 @@ var cases = [
   }
 },
 {
-  d: '#4, vanilla Promise',
+  d: '#4, vanilla Promise: Promise.resolve',
   is_async: true,
   f: function (n) {
-    return new Promise.resolve(n + 1)
+    return Promise.resolve(n + 1)
   },
   e: function (err, n) {
     expect(err).to.equal(null)
+    expect(n).to.equal(2)
+  }
+},
+{
+  d: '#4, vanilla Promise: Promise.reject',
+  is_async: true,
+  f: function (n) {
+    return Promise.reject('blah')
+  },
+  e: function (err, n) {
+    expect(err).to.equal('blah')
+    expect(n).to.equal(2)
+  }
+},
+{
+  d: '#4, Promise-like object',
+  is_async: true,
+  f: function (n) {
+    return {
+      then: function (fn) {
+        setTimeout(function () {
+          fn(n + 1)
+        }, 1)
+      }
+    }
+  },
+  e: function (err, n) {
+    expect(err).to.equal('blah')
     expect(n).to.equal(2)
   }
 }
