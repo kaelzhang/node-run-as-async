@@ -3,12 +3,14 @@
 var expect = require('chai').expect;
 var wrap = require('../');
 
+require('es6-promise').polyfill();
+
 var cases = [
 {
   d: 'sync with no error',
   is_async: false,
   f: function (n) {
-    return n + 1 
+    return n + 1
   },
   e: 2
 },
@@ -92,7 +94,7 @@ var cases = [
   f: function (n) {
     setTimeout(function(){
       this.async()();
-    }.bind(this), 10) 
+    }.bind(this), 10)
   }
 },
 {
@@ -130,6 +132,17 @@ var cases = [
   e: function (err, n) {
     expect(err).to.equal(null);
     expect(n).to.equal(1);
+  }
+},
+{
+  d: '#4, vanilla Promise',
+  is_async: true,
+  f: function (n) {
+    return new Promise.resolve(n + 1)
+  },
+  e: function (err, n) {
+    expect(err).to.equal(null)
+    expect(n).to.equal(2)
   }
 }
 ];
@@ -174,7 +187,7 @@ describe("wrap()", function(){
       } else {
         is_async = wrapped(1, callback);
       }
-      
+
       expect(is_async).to.equal(c.is_async);
     });
   });

@@ -27,9 +27,9 @@
     "url": "https://github.com/kaelzhang/node-wrap-as-async/issues"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "es6-promise": "^3.2.1",
+    "mocha": "*"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
